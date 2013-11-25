@@ -1,0 +1,133 @@
+#!/usr/bin/env python
+
+import os
+import os.path
+import cmd
+import datetime
+import hashlib
+
+dir_home = os.path.expanduser( '~' )
+commands = {}
+results = {}
+current_command = None
+yeses = ['1', 'yes', 'y', 'true', 't']
+
+datetime_now = datetime.datetime.now()
+tuple_datetime = datetime_now.timetuple()
+arr_datetime = []
+for i in range(0, len(tuple_datetime) ):
+    if i > 5:
+        break
+    arr_datetime.append( str( tuple_datetime[i] ) )
+current_datetime = '-'.join( arr_datetime )
+current_epoch = datetime_now.strftime('%s')
+sha1_epoch = hashlib.sha1('setups-' + current_epoch).hexdigest()
+
+def is_this_true (str):
+    str = str.lower()
+    if str in yeses:
+        return True
+    return False
+
+# Emacs
+# note:
+# - in order to scale this, I need a discovery mechanism.
+class EmacsCommand ( cmd.Cmd ):
+    has_setup = False
+    has_emacs = False
+    has_emacs_el = False
+
+    def __init__ ( self ):
+        print "emacs init"
+        cmd.Cmd.__init__(self)
+        self.prompt = "=> "
+
+        self.path_emacs = os.path.join( dir_home, '.emacs' )
+        self.path_emacs_el = os.path.join( dir_home, '.emacs.el' )
+        self.path_emacs_d = os.path.join( dir_home, '.emacs.d' )
+        self.path_repo_home = os.path.join( dir_home, 'Repository' )
+        self.path_dotfiles = os.path.join( self.path_repo_home, 'beatak-dotfiles' )
+        self.path_emacs_source = os.path.join( self.path_dotfiles, 'emacs' )
+
+        self.has_emacs = os.path.exists( self.path_emacs )
+        self.has_emacs_el = os.path.exists( self.path_emacs_el )
+        self.has_setup = self.has_emacs or self.has_emacs_el
+        print [self.path_emacs, self.path_emacs_el, self.has_emacs, self.has_emacs_el, self.has_setup]
+
+    def preloop ( self ):
+        print "emacs preloop"
+
+        if self.has_setup:
+            existing = self.path_emacs if self.has_emacs else self.path_emacs_el
+            print "It seems you have setup .emacs file already (%s exists). Do you want to replace it?" % existing
+        else:
+            self.do_setup_emacs()
+            raise Exception("done")
+
+    def default ( self, line ) :
+        print "emacs default"
+        if self.has_setup and not is_this_true( line ):
+            print "Okay, Emacs setup canceled"
+        else:
+            self.do_setup_emacs()
+        raise Exception("done")
+
+    def do_setup_emacs ( self ):
+        print "emacs do setup emacs"
+        try:
+            print 'making backup'
+            path_backup = os.path.join( dir_home, 'old-emacs-' + current_datetime + sha1_epoch[:10] )
+            os.makedirs( path_backup )
+            if self.has_setup:
+                if self.has_emacs:
+                    print 'has emacs file'
+                    os.rename( self.path_emacs, os.path.join( path_backup, os.path.basename( self.path_emacs ) ) )
+                else:
+                    print 'has emasc.el file'
+                    print [self.path_emacs_el, path_backup, os.path.basename( self.path_emacs_el )]
+                    os.rename( self.path_emacs_el, os.path.join( path_backup, os.path.basename( self.path_emacs_el ) ) )
+            print 'create a symlink for emacs.el file'
+            os.symlink( os.path.join( self.path_emacs_source, 'emacs.el' ), self.path_emacs )
+
+            if os.path.exists( self.path_emacs_d ):
+                print 'has emacs.d dir'
+                os.rename( self.path_emacs_d, os.path.join( path_backup, os.path.basename( self.path_emacs_d ) ) )
+            print 'create a new dir'
+            os.makedirs( self.path_emacs_d )
+
+            list_contents = os.listdir( self.path_emacs_source )
+            for name in list_contents:
+                if name == '.DS_Store' or name == 'emacs.el':
+                    print 'no sym link for %s' % name
+                    continue
+                else:
+                    print 'symlinking %s' % name
+                    os.symlink( os.path.join( self.path_emacs_source, name ), os.path.join( self.path_emacs_d, name ) )
+        except Exception, e:
+            print e
+            print 'failed'
+
+
+commands['Emacs'] = EmacsCommand
+
+# 
+#     print 'yes'
+# else:
+#     print 'no'
+
+if __name__ == '__main__':
+    keys = commands.keys()
+    len_keys = len(keys) - 1
+    for index, key in enumerate( keys ):
+        current_command = key
+        value = commands[key]
+        print "Setting up %s" % key
+        try:
+            print "looping!"
+            value().cmdloop()
+        except Exception, e:
+            print e
+            if index >= len_keys:
+                print "Done"
+    exit( 0 )
+
