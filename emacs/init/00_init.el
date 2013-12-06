@@ -60,19 +60,10 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; tab width?
-(custom-set-variables
- '(tab-width 2)
- '(indent-tabs-mode nil)
- '(css-indent-offset 2)
- '(js2-basic-offset 2)  
- '(js2-bounce-indent-p t)  
-)
-
-(custom-set-variables
- '(tool-bar-mode nil))
-
-;; I dunno
+;; disabling auto save for tramp incapability but i may want to turn back up...
 (setq backup-inhibited t)     ;disable backup
 (setq auto-save-default nil)  ;disable auto save
 
+;; not showing menu bar
+(menu-bar-mode nil)
+(custom-set-variables '(tool-bar-mode nil))

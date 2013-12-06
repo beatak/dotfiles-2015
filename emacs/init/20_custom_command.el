@@ -1,4 +1,6 @@
 
+(defun back-window () "Reverse other-window" (interactive) (other-window -1))
+
 (defun match-paren (arg)
   "Go to the matching paren if on a paren; otherwise insert %."
   (interactive "p")
