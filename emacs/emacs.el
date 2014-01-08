@@ -28,6 +28,8 @@
     js2-mode
     ;;;; scss
     scss-mode
+    ;;;; web template
+    web-mode
     ))
 
 ;; install favorites if it hasn't
