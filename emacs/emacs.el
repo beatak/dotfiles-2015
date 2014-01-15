@@ -29,7 +29,7 @@
     ;;;; scss
     scss-mode
     ;;;; web template
-    web-mode
+    web-mode smarty-mode
     ))
 
 ;; install favorites if it hasn't
