@@ -16,3 +16,25 @@
                            (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
                   (make-directory dir t))))))
 
+http://stackoverflow.com/questions/3766296/setting-frame-size-in-emacs-on-toggle-out-of-fullscreen
+;;; Set frame width - used on toggle out of fullscreen mode
+(defun default-frame-width ()
+    "Set width of selected frame."
+    (modify-frame-parameters
+     (selected-frame)
+     (list (cons 'width 140))))
+
+;;; This used to be in Carbon Emacs, puttin' it back in with my own twist
+(defun mac-toggle-max-window ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen 
+                       (if (frame-parameter nil 'fullscreen)
+                           (progn
+                             (scroll-bar-mode 1) ;; turn on scrollbars when not in fullscreen mode
+                             (default-frame-width)
+                             nil)
+                         (progn
+                           (scroll-bar-mode -1) ;; turn off scrollbars when in fullscreen mode
+                           'fullboth))))
+
+

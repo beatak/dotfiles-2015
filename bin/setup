@@ -95,6 +95,8 @@ class EmacsCommand ( cmd.Cmd ):
             print 'create a new dir'
             os.makedirs( self.path_emacs_d )
 
+            # fixme
+            # this block needs to check if the symlink exists already or not.
             list_contents = os.listdir( self.path_emacs_source )
             for name in list_contents:
                 if name == '.DS_Store' or name == 'emacs.el':

@@ -9,6 +9,6 @@
 ;; (load-theme 'solarized-dark t)
 
 ;; https://github.com/jimeh/twilight-anti-bright-theme
-(require 'twilight-anti-bright-theme)
-(load-theme twilight-anti-bright t)
+;; (require 'twilight-anti-bright-theme)
+;; (load-theme twilight-anti-bright t)
 

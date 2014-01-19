@@ -30,6 +30,8 @@
     scss-mode
     ;;;; web template
     web-mode smarty-mode
+    ;;;; frame resizer
+    maxframe
     ))
 
 ;; install favorites if it hasn't
@@ -54,21 +56,6 @@
 ;; 50 minor mode
 ;; 60 post init
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(css-indent-offset 4)
- '(custom-safe-themes (quote ("9ea054db5cdbd5baa4cda9d373a547435ba88d4e345f4b06f732edbc4f017dc3" default)))
- '(indent-tabs-mode nil)
- '(js2-basic-offset 4)
- '(js2-bounce-indent-p t)
- '(tab-width 4)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(when (string= system-name "lyre.local")
+  (load-file "~/.emacs.d/environmental/lyre.local.el")
+)
