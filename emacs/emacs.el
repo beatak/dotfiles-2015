@@ -59,3 +59,8 @@
 (when (string= system-name "lyre.local")
   (load-file "~/.emacs.d/environmental/lyre.local.el")
 )
+
+(when (string= system-name "2571")
+  (load-file "~/.emacs.d/environmental/2571.el")
+)
+
