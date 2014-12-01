@@ -13,4 +13,3 @@
 ;;          (| (:right-max-size 30)
 ;;             main imenu)
 ;;          sub)))
-

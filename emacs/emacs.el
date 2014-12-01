@@ -13,17 +13,19 @@
 (defvar my/favorite-packages
   '(
     ;;;; for auto-complete
-    auto-complete fuzzy popup pos-tip
+    ;; auto-complete fuzzy popup pos-tip
     ;;;; buffer utils
-    popwin elscreen yascroll buffer-move
+    ;; popwin elscreen yascroll buffer-move
     ;;;; flymake
-    flycheck flymake-jslint flymake-php
+    ;; flycheck flymake-jslint flymake-php
     ;;;; php
-    ;; php-mode php+-mode
+    php-mode ;;php+-mode
     ;;;; python
-    jedi
+    ;; jedi
     ;;;; helm
     helm
+    ;;;; helm + ac
+    auto-complete ac-helm
     ;;;; js2
     js2-mode
     ;;;; scss
@@ -63,4 +65,3 @@
 (when (string= system-name "2571")
   (load-file "~/.emacs.d/environmental/2571.el")
 )
-
