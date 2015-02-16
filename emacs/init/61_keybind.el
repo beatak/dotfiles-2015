@@ -7,8 +7,10 @@
 (global-unset-key (kbd "C-x C-c"))
 
 ;; symbol highlight
-(global-set-key [f3] 'highlight-symbol-at-point)
-(global-set-key [f4] 'highlight-symbol-next)
+;; (global-set-key [f3] 'highlight-symbol-at-point)
+(global-set-key [f3] 'hlt-highlight-symbol)
+;; (global-set-key [f4] 'highlight-symbol-next)
+(global-set-key [f4] 'hlt-next-highlight)
 
 ;; e2wm
 (global-set-key (kbd "M-+") 'e2wm:start-management)
